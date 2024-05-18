@@ -1,5 +1,5 @@
 // Load .env file into process.env
-require('dotenv').config(); 
+require('dotenv').config();
 
 // Import modules
 const express = require('express');
@@ -22,7 +22,9 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 // Use middleware
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000' // Allow requests from only http://localhost:3000
+}));
 app.use(express.json()); // Returns middleware that only parses JSON
 
 // Use routes
@@ -32,7 +34,7 @@ app.use('/api/chat', chatRoutes);
 // Handle Socket.io connections
 io.on('connection', (socket) => {
     console.log('New client connected');
-    
+
     socket.on('sendMessage', (message) => {
         io.emit('receiveMessage', message);
     });
