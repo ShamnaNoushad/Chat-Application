@@ -9,6 +9,9 @@ function ChatRoom() {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
+        // Fetch initial messages from the server
+        fetchMessages();
+
         // Listen for new messages from the server
         socket.on('receiveMessage', (message) => {
             setMessages((prevMessages) => [...prevMessages, message]);
@@ -19,6 +22,16 @@ function ChatRoom() {
             socket.disconnect();
         };
     }, []);
+
+    const fetchMessages = async () => {
+        try {
+            const response = await fetch('http://localhost:4000/api/messages');
+            const data = await response.json();
+            setMessages(data);
+        } catch (error) {
+            console.error('Error fetching messages:', error);
+        }
+    };
 
     const sendMessage = (message) => {
         socket.emit('sendMessage', message);

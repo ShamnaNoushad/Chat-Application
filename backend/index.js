@@ -5,7 +5,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
-const socketIo = require('socket.io');
+const {Server} = require('socket.io');
 const connectDB = require('./DB/connection');
 const authRoutes = require('./Router/authRoutes');
 const chatRoutes = require('./Router/chatRoutes');
@@ -19,8 +19,12 @@ connectDB().then(() => {
 // Create a backend application using Express
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
-
+const io = new Server(server, {
+    cors: {
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST']
+    }
+});
 // Use middleware
 app.use(cors({
     origin: 'http://localhost:3000' // Allow requests from only http://localhost:3000
