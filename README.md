@@ -21,20 +21,20 @@ This is a real-time chat application built with React, Node.js, Express, and Mon
 # Getting Started
 ## Installation
 1. Clone the repository:
-   git clone https://github.com/ShamnaNoushad/Chat-Application
-   cd Chat-Application
+   - git clone https://github.com/ShamnaNoushad/Chat-Application
+   - cd Chat-Application
 2. Install dependencies:
     (To check which dependencies are installed, you can refer to the package.json file.)
     - cd backend and cd ../frontend
     - npm install
 3. Set up environment variables:
-   Create a .env file in the backend directory and provide MongoDB connection string and jwt 
+   - Create a .env file in the backend directory and provide MongoDB connection string and jwt 
    secret key
 4. Run the backend server: nodemon index.js
 5. Run the frontend server: npm start
 6. Access the application:
-   The backend server runs on port 4000.
-   Open your browser and navigate to http://localhost:3000
+   - The backend server runs on port 4000.
+   - Open your browser and navigate to http://localhost:3000
    
 ## Demo Credentials
 Use the following credentials to log in without signing up:
