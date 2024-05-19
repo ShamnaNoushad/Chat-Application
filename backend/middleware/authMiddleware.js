@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
         return res.status(401).json({ error: 'No token provided' });
     }
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    jwt.verify(token.split(' ')[1], process.env.JWT_SECRET, (err, decoded) => {  // Adjusted to split the "Bearer" prefix
         if (err) {
             return res.status(401).json({ error: 'Failed to authenticate token' });
         }

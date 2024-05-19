@@ -25,6 +25,9 @@ const io = new Server(server, {
         methods: ['GET', 'POST']
     }
 });
+// Make the io instance available in routes
+app.set('io', io);
+
 // Use middleware
 app.use(cors({
     origin: 'http://localhost:3000' // Allow requests from only http://localhost:3000
