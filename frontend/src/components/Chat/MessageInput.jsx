@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import './input.css'
 function MessageInput({ sendMessage }) {
     const [message, setMessage] = useState('');
 
@@ -10,14 +10,15 @@ function MessageInput({ sendMessage }) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="message-input" onSubmit={handleSubmit}>
             <input
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Type your message"
+                className="message-input-field"
             />
-            <button type="submit">Send</button>
+            <button type="submit" className="message-input-button">Send</button>
         </form>
     );
 }

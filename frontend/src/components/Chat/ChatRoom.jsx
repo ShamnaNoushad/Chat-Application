@@ -35,21 +35,34 @@ function ChatRoom() {
         }
     };
 
-    const sendMessage = (message) => {
+    const sendMessage = async (message) => {
         const token = localStorage.getItem('token');
-        fetch('http://localhost:4000/api/chat/messages', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ user: 'YourUserName', message })
-        });
+        try {
+            const response = await fetch('http://localhost:4000/api/chat/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ user: 'YourUserName', message })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to send message');
+            }
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
     };
 
     return (
         <div>
-            <h1>Chat Room</h1>
+            <h1 style={{
+                textAlign:'center',
+                fontSize:'30px',
+                color:'black',
+                marginTop:'20px'
+            }}>Chat Room</h1>
             <MessageList messages={messages} />
             <MessageInput sendMessage={sendMessage} />
         </div>

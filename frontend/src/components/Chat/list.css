@@ -1,0 +1,41 @@
+.message-list {
+    padding: 1rem;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.message {
+    margin-bottom: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.own-message {
+    background-color: #e0ffe0;
+    align-self: flex-end;
+}
+
+.message-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.message-user {
+    font-weight: bold;
+}
+
+.message-time {
+    font-style: italic;
+}
+
+.message-content {
+    font-size: 1rem;
+}
