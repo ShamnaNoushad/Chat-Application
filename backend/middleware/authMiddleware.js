@@ -11,9 +11,9 @@ const authMiddleware = (req, res, next) => {
         if (err) {
             return res.status(401).json({ error: 'Failed to authenticate token' });
         }
-        req.userId = decoded.userId;
+        req.payload = decoded;
         next();
-    });
+    });
 };
 
 module.exports = authMiddleware;

@@ -9,12 +9,10 @@ const {Server} = require('socket.io');
 const connectDB = require('./DB/connection');
 const authRoutes = require('./Router/authRoutes');
 const chatRoutes = require('./Router/chatRoutes');
-const { createDemoUser } = require('./Controller/userController');
 
 // Connect to MongoDB Atlas
 connectDB().then(() => {
-    createDemoUser(); // Create demo user after DB connection is established
-});
+    console.log('Connected to MongoDB Atlas');});
 
 // Create a backend application using Express
 const app = express();

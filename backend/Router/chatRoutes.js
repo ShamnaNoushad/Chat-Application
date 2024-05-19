@@ -6,17 +6,21 @@ const authMiddleware = require('../middleware/authMiddleware');
 // Fetch chat messages
 router.get('/messages', authMiddleware, async (req, res) => {
     try {
-        const messages = await Chat.find().sort({ timestamp: -1 }).limit(50); // Sort by timestamp and limit to 50 messages
+        const messages = await Chat.find().limit(50); // Sort by timestamp and limit to 50 messages
         res.status(200).json(messages);
     } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch messages: ' + err.message });
-    }
+        res.status(500).json({ error: 'Failed to fetch messages: ' + err.message });
+    }
 });
+
+
 
 // Post a new chat message
 router.post('/messages', authMiddleware, async (req, res) => {
-    const { user, message } = req.body;
+    const { message } = req.body;
     try {
+        const user = req.payload.name
+        console.log(user)
         const chatMessage = new Chat({ user, message });
         await chatMessage.save();
 
@@ -25,8 +29,8 @@ router.post('/messages', authMiddleware, async (req, res) => {
 
         res.status(201).json(chatMessage);
     } catch (err) {
-        res.status(400).json({ error: 'Failed to save message: ' + err.message });
-    }
+        res.status(400).json({ error: 'Failed to save message: ' + err.message });
+    }
 });
 
 module.exports = router;

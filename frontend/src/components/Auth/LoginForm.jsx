@@ -14,12 +14,12 @@ function LoginForm() {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:4000/api/auth/login', { email, password });
-            console.log(response.data); // Handle successful login
-            localStorage.setItem('token', response.data.token); // Store token in local storage
-            navigate('/chat'); // Redirect to chat room after successful login
+            console.log(response.data); 
+            localStorage.setItem('token', response.data.token); 
+            navigate('/chat'); 
         } catch (error) {
-            console.error(error.response.data); // Log error response
-            setErrorMessage('Invalid email or password. Please try again.'); // Set error message
+            console.error(error.response.data); 
+            setErrorMessage('Invalid email or password. Please try again.'); 
         }
     };
 

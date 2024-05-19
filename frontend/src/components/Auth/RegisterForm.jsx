@@ -15,11 +15,11 @@ function RegisterForm() {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:4000/api/auth/register', { username, email, password });
-            console.log(response.data); // Handle successful registration
-            navigate('/'); // Redirect to login page after successful registration
+            console.log(response.data); 
+            navigate('/');
         } catch (error) {
-            console.error(error.response.data); // Log error response
-            setErrorMessage('Registration failed. Please try again.'); // Set error message
+            console.error(error.response.data); 
+            setErrorMessage('Registration failed. Please try again.');
         }
     };
 
