@@ -1,40 +1,45 @@
-// Load .env file into process.env
 require('dotenv').config();
 
 // Import modules
 const express = require('express');
 const cors = require('cors');
-const http = require('http');
-const {Server} = require('socket.io');
 const connectDB = require('./DB/connection');
 const authRoutes = require('./Router/authRoutes');
 const chatRoutes = require('./Router/chatRoutes');
+const { Server } = require('socket.io');
 
 // Connect to MongoDB Atlas
 connectDB().then(() => {
-    console.log('Connected to MongoDB Atlas');});
-
-// Create a backend application using Express
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: 'http://localhost:3000',
-        methods: ['GET', 'POST']
-    }
+    console.log('Connected to MongoDB Atlas');
 });
-// Make the io instance available in routes
-app.set('io', io);
+
+// backend app using Express
+const app = express();
 
 // Use middleware
 app.use(cors({
     origin: 'http://localhost:3000' // Allow requests from only http://localhost:3000
 }));
-app.use(express.json()); // Returns middleware that only parses JSON
+app.use(express.json());
 
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/chat', chatRoutes);
+
+// Create HTTP server and integrate Socket.io
+const server = app.listen(process.env.PORT || 4000, () => {
+    console.log('Listening on port ' + (process.env.PORT || 4000));
+});
+
+const io = new Server(server, {
+    pingTimeout: 60000,
+    cors: {
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST']
+    },
+});
+
+app.set('io', io);
 
 // Handle Socket.io connections
 io.on('connection', (socket) => {
@@ -47,14 +52,6 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Client disconnected');
     });
-});
-
-// Port creation
-const PORT = process.env.PORT || 4000;
-
-// Server listen
-server.listen(PORT, () => {
-    console.log('Listening on port ' + PORT);
 });
 
 // HTTP GET route resolving to 

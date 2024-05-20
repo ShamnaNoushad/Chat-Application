@@ -2,24 +2,34 @@ import React, { useEffect, useState } from 'react';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import { io } from 'socket.io-client';
-import logo1 from '../assets/chat.png'
-import './room.css'
+import logo1 from '../assets/chat.png';
+import './room.css';
 import { useNavigate } from 'react-router-dom';
-const socket = io('http://localhost:4000');
 
 function ChatRoom() {
     const [messages, setMessages] = useState([]);
+    const [socket, setSocket] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetchMessages();
+        fetchMessages(); 
 
-        socket.on('receiveMessage', (message) => {
+        const newSocket = io('http://localhost:4000');
+
+        newSocket.on('connect', () => {
+            console.log('Connected to server');
+            setSocket(newSocket); 
+        });
+
+        newSocket.on('receiveMessage', (message) => {
             setMessages((prevMessages) => [...prevMessages, message]);
-
         });
 
         return () => {
-            socket.disconnect();
+            if (newSocket) {
+                newSocket.disconnect();
+                console.log('Disconnected from server');
+            }
         };
     }, []);
 
@@ -51,7 +61,7 @@ function ChatRoom() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ user:'', message })
+                body: JSON.stringify({ user: '', message })
             });
 
             if (!response.ok) {
@@ -62,11 +72,15 @@ function ChatRoom() {
         }
     };
 
-    const navigate=useNavigate();
-    const handleClick =async()=>{
+    const handleClick = async () => {
         localStorage.clear();
-        navigate("/")
+        navigate("/");
+    };
+
+    if (!socket) {
+        return null; 
     }
+
     return (
         <div>
             <div className='head'>
